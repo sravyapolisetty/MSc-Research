@@ -1,0 +1,9 @@
+screen -list
+screen -S <screen_name>
+screen -r <screen_to_resume>
+
+sh run.sh --to run the docker container
+
+top
+free -g
+docker ps -a

@@ -1,0 +1,21 @@
+
+Total Test Cases: 5304
+Total Source Code Files: 101222
+
+Total Linked Items: 91315
+Total Trace Matrix Items: 5304*101222
+
+Considering only Non-Links: 913150
+
+Total Trace Matrix: 91315+913150=1004465
+
+% of Linked Items: 9%
+
+Train Set is 45% of 1004465
+Validation Set is 10% of 1004465
+Test Set is 45% of 1004465
+
+Before each epoch we build balanced train sets.
+After each epoch we validate using balanced validation sets.
+
+After 10 epochs of training and validation, we test on 45% test set. (452646)
