@@ -20,6 +20,9 @@ This script normalizes the text in test cases and converts the source code file 
 Generate_Trace.R: 
 This script generates a mxn trace matrix withlinked itesm and non-linked items equal to 10 times the number of linked items.
 
+Trace:
+This is the project folder which contains the Lua Torch code for RNN, LSTM, Bi-LSTM, GRU and Bi-GRU models.
+
 
 
 
