@@ -1,0 +1,68 @@
+#!/bin/bash
+
+set -e
+
+basedir=`dirname "$0"`
+
+keyword_opts=()
+stopword_opts=()
+
+while getopts k:s:h opt
+do
+	case $opt in
+		k) 
+			keyword_opts+=( "-f" "$OPTARG" )
+			;;
+		s) 
+			stopword_opts+=( "-f" "$OPTARG" )
+			;;
+		h) 
+			echo "$0 [[-k <keywords-file>]|[-s <stopwords-file>]]* [<input-file>]*"
+			exit
+			;;
+	esac
+done
+
+# Select sed 
+if [ command -v gsed >/dev/null 2>&1 ]; then
+  SED=gsed
+else
+  SED=sed
+fi
+
+# Discard punctuation & numeric literals.
+function extract_identifiers() {
+    $SED -e 's/0[xX][[:alnum:]]\+//g' -e 's/[^[:alpha:]_]\+/\n/g' | grep -v '^$'
+  
+}
+
+# Split camel case into individual words, taking into account all-caps
+# abbreviations, such as XML or JPEG, and split at underscores
+function split_words() {
+    $SED -e 's/\([[:lower:]]\)\([[:upper:]]\)/\1\n\2/g' \
+    	 -e 's/\([[:upper:]]\+\)\([[:upper:]][[:lower:]]\)/\1\n\2/g' \
+	     -e 's/_\+/\n/g'
+
+
+}
+
+function ignore_keywords() {
+	grep -vw "${keyword_opts[@]}" -e "^$"
+}
+
+function ignore_stopwords() {
+    grep -vw "${stopword_opts[@]}" -e . -e ..
+}
+
+function lowercase() {
+	tr [:upper:] [:lower:]
+}
+
+# Should do stemming (with Snowball, for example)
+
+# Should do stemming (with Snowball, for example)
+function group_words() {
+    tr [:upper:] [:lower:] | sort
+}
+
+extract_identifiers | split_words | lowercase | ignore_keywords 
